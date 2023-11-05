@@ -1,0 +1,16 @@
+[package]
+name = "mni2mz3"
+version = "0.1.0-rc.1"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+flate2 = "1.0.28"
+fs-err = "2.9.0"
+main_error = "0.1.2"
+thiserror = "1.0.50"
+
+[dev-dependencies]
+approx = "0.5.1"
+rstest = "0.18.2"
