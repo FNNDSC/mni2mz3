@@ -5,7 +5,8 @@ vertex-wise data (e.g. curvature, cortical thickness, `*.txt`)
 to [Surf-Ice MZ3 (`.mz3`)](https://github.com/neurolabusc/surf-ice/tree/master/mz3).
 Useful for visualizing surfaces using [Surf-Ice](https://github.com/neurolabusc/surf-ice) or [NiiVue](https://github.com/niivue/niivue).
 
-\*Not to be confused with Wavefront .obj, which is a different spec but with the same file extension.
+> [!WARNING]
+> \*Not to be confused with Wavefront .obj, which is a different spec but with the same file extension.
 
 ## Installation
 
@@ -23,7 +24,6 @@ mni2mz3 thickness.txt thickness.mz3
 
 ## Details
 
-- TODO Output file will be gzip compressed.
+- Output file will be gzip compressed.
 - For surfaces, only triangle meshes are supported.
-- For data, only 32-bit single-precision "float" (`isSCALAR`) is supported.
-  (`isDOUBLE` is not supported)
+- For data, only 32-bit single-precision "float" is supported.
