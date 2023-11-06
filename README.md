@@ -1,4 +1,4 @@
-# obj2mz3
+# mni2mz3
 
 Converts a file from MNI polygonal surface mesh format (`.obj`\*) or
 vertex-wise data (e.g. curvature, cortical thickness, `*.txt`)
@@ -18,7 +18,7 @@ TODO
 mni2mz3 surface_81920.obj surface.mz3
 
 # convert data
-mni2mz3 thickness.txt thickness.txt
+mni2mz3 thickness.txt thickness.mz3
 ```
 
 ## Details
