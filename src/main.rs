@@ -7,6 +7,7 @@ use std::io::BufWriter;
 mod args;
 mod io;
 mod mz3;
+mod obj;
 mod scalar;
 
 fn main() -> main_error::MainResult {
