@@ -61,12 +61,12 @@ impl Mz3 {
 }
 
 fn data_to_mz3<W: Write>(data: Vec<f32>, sink: &mut W) -> io::Result<()> {
-    sink.write(MZ3_MAGIC_SIGNATURE)?;
-    sink.write(MZ3_IS_SCALAR)?;
-    sink.write(&[0, 0, 0, 0, 0, 0, 0, 0])?; // NFACE=0 NVERT=0
-    sink.write(NSKIP_EMPTY)?;
+    sink.write_all(MZ3_MAGIC_SIGNATURE)?;
+    sink.write_all(MZ3_IS_SCALAR)?;
+    sink.write_all(&[0, 0, 0, 0, 0, 0, 0, 0])?; // NFACE=0 NVERT=0
+    sink.write_all(NSKIP_EMPTY)?;
     for bytes in data.into_iter().map(|value| value.to_le_bytes()) {
-        sink.write(&bytes)?;
+        sink.write_all(&bytes)?;
     }
     Ok(())
 }
