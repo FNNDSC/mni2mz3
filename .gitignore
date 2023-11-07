@@ -1,2 +1,5 @@
 /target
 /.idea
+
+# test data
+/.my_test_data
