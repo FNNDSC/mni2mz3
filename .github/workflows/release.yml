@@ -206,7 +206,7 @@ jobs:
 
         tar xf "\$file"
         dest="\${$bin_env_var_name:-/usr/local/bin/\$NAME}"
-        mv "\${file/.tgz/}/\$NAME" "$dest"
+        mv "\${file/.tgz/}/\$NAME" "\$dest"
 
         cd /
         rm -rf "\$tmpdir"
