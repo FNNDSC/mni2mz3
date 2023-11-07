@@ -153,6 +153,65 @@ jobs:
       with:
         name: release
         path: release
+    - name: Generate install script
+      id: create_script
+      run: |
+        repo='${{ github.repository }}'
+        owner_part='${{ github.repository_owner }}/'
+        repo_name="${repo:${#owner_part}}"
+        bin_env_var_name="${repo_name^^}_BIN"
+        echo "bin_env_var_name=$bin_env_var_name" >> "$GITHUB_OUTPUT"
+
+        cat > release/installer.sh << EOF
+        #!/bin/sh
+        # Yet-another SH installer for Rust binaries from GitHub releases.
+        # The binary gets installed to /usr/local/bin, or a custom location specified by $bin_env_var_name
+
+        set -e
+
+        arch=\$(uname -m)
+        os=\$(uname -s)
+
+        arch="\${arch/ppc64/powerpc64}"
+
+        case "\$os" in
+          Darwin  ) os=apple-darwin ;;
+          Linux   ) os=unknown-linux-gnu ;;
+        esac
+
+        if [ "\$arch" = "x_86_64" ] || [ "\$arch" = "aarch64" ]; then
+          if ldd --version 2>&1 | grep -q 'musl libc'; then
+            os=unknown-linux-musl
+          fi
+        fi
+
+        VERSION_TAG='${{ github.ref_name }}'
+        REPO='$repo'
+        NAME='$repo_name'
+
+        file="\$NAME-\$arch-\$os-\$VERSION_TAG.tgz"
+        url="https://${{ github.server_url }}/\$REPO/releases/download/\$VERSION_TAG/\$file"
+
+        tmpdir="\$(mktemp -d)"
+        cd "\$tmpdir"
+
+        if which curl > /dev/null 2>&1; then
+          curl -sfLo "\$file" "\$url"
+        elif which wget > /dev/null 2>&1; then
+          wget -q -O "\$file" "\$url"
+        else
+          >&2 echo "error: curl nor wget found"
+          exit 1
+        fi
+
+        tar xf "\$file"
+        dest="\${$bin_env_var_name:-/usr/local/bin/\$NAME}"
+        mv "\${file/.tgz/}/\$NAME" "$dest"
+
+        cd /
+        rm -rf "\$tmpdir"
+        EOF
+
     - name: Print out all release files
       run: |
         echo "Generated $(ls ./release | wc -l) files:"
@@ -164,6 +223,21 @@ jobs:
         fail_on_unmatched_files: true
         files: |
           ./release/*
+        body: |
+          A script is provided for downloading and installing the binary.
+
+          ```shell
+          curl --proto '=https' --tlsv1.2 -LsSf 'https://${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh | env ${{ steps.create_script.outputs.bin_env_var_name }}=/usr/local/bin/mni2mz3 sh
+          ```
+
+          <details>
+          <summary>(Click to expand) Usage in <code>Dockerfile</code></summary>
+
+          ```Dockerfile
+          RUN curl --proto '=https' --tlsv1.2 -LsSf 'https://${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh | sh
+          ```
+
+          </summary>
 
   #################################################
   #                                               #
