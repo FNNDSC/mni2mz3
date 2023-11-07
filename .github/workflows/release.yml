@@ -93,7 +93,7 @@ jobs:
         version="$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')"
         echo "name=$name" >> "$GITHUB_OUTPUT"
         echo "version=$version" >> "$GITHUB_OUTPUT"
-        echo "bin_name=$name-${{ matrix.target }}-$version" >> "$GITHUB_OUTPUT"
+        echo "bin_name=$name-${{ matrix.target }}-v$version" >> "$GITHUB_OUTPUT"
     - name: Bundle release (Windows)
       if: matrix.os == 'windows-latest'
       shell: bash
