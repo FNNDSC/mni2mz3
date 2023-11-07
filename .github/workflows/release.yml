@@ -163,7 +163,7 @@ jobs:
         echo "bin_env_var_name=$bin_env_var_name" >> "$GITHUB_OUTPUT"
 
         cat > release/installer.sh << EOF
-        #!/bin/sh
+        #!/bin/bash
         # Yet-another SH installer for Rust binaries from GitHub releases.
         # The binary gets installed to /usr/local/bin, or a custom location specified by $bin_env_var_name
 
@@ -190,7 +190,7 @@ jobs:
         NAME='$repo_name'
 
         file="\$NAME-\$arch-\$os-\$VERSION_TAG.tgz"
-        url="https://${{ github.server_url }}/\$REPO/releases/download/\$VERSION_TAG/\$file"
+        url="${{ github.server_url }}/\$REPO/releases/download/\$VERSION_TAG/\$file"
 
         tmpdir="\$(mktemp -d)"
         cd "\$tmpdir"
@@ -226,18 +226,23 @@ jobs:
         body: |
           A script is provided for downloading and installing the binary.
 
+          Install for all users (requires `sudo`):
+
           ```shell
-          curl --proto '=https' --tlsv1.2 -LsSf 'https://${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh | env ${{ steps.create_script.outputs.bin_env_var_name }}=/usr/local/bin/mni2mz3 sh
+          curl --proto '=https' --tlsv1.2 -LsSf '${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh' | sudo env ${{ steps.create_script.outputs.bin_env_var_name }}=/usr/local/bin/mni2mz3 bash
           ```
 
-          <details>
-          <summary>(Click to expand) Usage in <code>Dockerfile</code></summary>
+          Install for current user:
+
+          ```shell
+          curl --proto '=https' --tlsv1.2 -LsSf '${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh' | env ${{ steps.create_script.outputs.bin_env_var_name }}="$HOME/.local/bin/mni2mz3" bash
+          ```
+
+          Use in `Dockerfile` (requires `bash` and `curl`):
 
           ```Dockerfile
-          RUN curl --proto '=https' --tlsv1.2 -LsSf 'https://${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh | sh
+          RUN curl --proto '=https' --tlsv1.2 -LsSf '${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/installer.sh' | bash
           ```
-
-          </summary>
 
   #################################################
   #                                               #
