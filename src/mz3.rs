@@ -77,9 +77,12 @@ impl From<MniMeshRaw> for Mz3 {
 }
 
 fn data_to_mz3<W: Write>(data: Vec<f32>, sink: &mut W) -> io::Result<()> {
+    let n_vert = data.len() as u32;
     sink.write_all(MZ3_MAGIC_SIGNATURE)?;
     sink.write_all(MZ3_IS_SCALAR)?;
-    sink.write_all(&[0, 0, 0, 0, 0, 0, 0, 0])?; // NFACE=0 NVERT=0
+    sink.write_all(&0u32.to_le_bytes())?;  // NFACE=0
+    sink.write_all(&n_vert.to_le_bytes())?;
+    sink.write_all(&[0, 0, 0, 0, 0, 0, 0, 0])?;
     sink.write_all(NSKIP_EMPTY)?;
     for element in data {
         sink.write_all(&element.to_le_bytes())?;
