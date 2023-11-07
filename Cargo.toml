@@ -31,10 +31,6 @@ strip = "symbols"
 lto = "fat"
 codegen-units = 1
 
-[package.metadata.wix]
-upgrade-guid = "DB574743-59E9-4A30-9CD5-C6596BD7610A"
-path-guid = "359A1F1D-7819-4692-937C-6118C50240AF"
-
 # The profile that 'cargo dist' will build with
 [profile.dist]
 inherits = "release"
@@ -47,7 +43,7 @@ cargo-dist-version = "0.4.2"
 # CI backends to support
 ci = ["github"]
 # The installers to generate for each app
-installers = ["shell", "powershell", "npm", "homebrew", "msi"]
+installers = ["shell", "powershell", "npm", "homebrew"]
 # A GitHub repo to push Homebrew formulas to
 tap = "FNNDSC/homebrew-mni2mz3"
 # Target platforms to build apps for (Rust target-triple syntax)
