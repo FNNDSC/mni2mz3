@@ -196,13 +196,12 @@ jobs:
         tmpdir="\$(mktemp -d)"
         cd "\$tmpdir"
 
-        if which curl > /dev/null 2>&1; then
-          curl -sfLo "\$file" "\$url"
-        elif which wget > /dev/null 2>&1; then
+        if curl -sfLo "\$file" "\$url" 2>&1 | grep -q "command not found"; then
           wget -q -O "\$file" "\$url"
-        else
-          >&2 echo "error: curl nor wget found"
-          exit 1
+        fi
+
+        if ! [ -f "\$file" ]; then
+          >&2 echo "error: failed to download from \$url"
         fi
 
         tar xf "\$file"
