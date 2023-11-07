@@ -3,7 +3,13 @@ name = "mni2mz3"
 version = "0.1.0-rc.1"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Jennings Zhang <jennings.zhang@childrens.harvard.edu>"]
+readme = "README.md"
+description = "Brain imaging surface mesh file format converter"
+repository = "https://github.com/FNNDSC/mni2mz3"
+license = "MIT"
+categories = ["science::neuroscience", "science", "graphics", "command-line-utilities"]
+keywords = ["surface", "mesh", "MNI", "obj", "mz3"]
 
 [dependencies]
 flate2 = "1.0.28"
@@ -19,3 +25,38 @@ tempfile = "3.8.1"
 # improve speed of tests
 [profile.test]
 opt-level = 2
+
+[profile.release]
+strip = "symbols"
+lto = "fat"
+codegen-units = 1
+
+[package.metadata.wix]
+upgrade-guid = "DB574743-59E9-4A30-9CD5-C6596BD7610A"
+path-guid = "359A1F1D-7819-4692-937C-6118C50240AF"
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.4.2"
+# CI backends to support
+ci = ["github"]
+# The installers to generate for each app
+installers = ["shell", "powershell", "npm", "homebrew", "msi"]
+# A GitHub repo to push Homebrew formulas to
+tap = "FNNDSC/homebrew-mni2mz3"
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["x86_64-unknown-linux-gnu", "aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-unknown-linux-musl", "x86_64-pc-windows-msvc"]
+# The archive format to use for windows builds (defaults .zip)
+windows-archive = ".tar.gz"
+# The archive format to use for non-windows builds (defaults .tar.xz)
+unix-archive = ".tar.gz"
+# Publish jobs to run in CI
+publish-jobs = ["homebrew"]
+# Publish jobs to run in CI
+pr-run-mode = "skip"
