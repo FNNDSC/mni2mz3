@@ -1,7 +1,7 @@
 # mni2mz3
 
+[![crates.io](https://img.shields.io/crates/v/mni2mz3?label=version)](https://crates.io/crates/mni2mz3)
 [![MIT License](https://img.shields.io/github/license/fnndsc/mni2mz3)](https://github.com/FNNDSC/mni2mz3/blob/main/LICENSE)
-[![Version](https://img.shields.io/docker/v/fnndsc/mni2mz3?sort=semver)](https://hub.docker.com/r/fnndsc/mni2mz3)
 [![test](https://github.com/FNNDSC/mni2mz3/actions/workflows/test.yml/badge.svg)](https://github.com/FNNDSC/mni2mz3/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/FNNDSC/mni2mz3/branch/master/graph/badge.svg?token=1YQRZWW95S)](https://codecov.io/gh/FNNDSC/mni2mz3)
 
@@ -33,3 +33,11 @@ mni2mz3 thickness.txt thickness.mz3
 - Output file will be gzip compressed.
 - For surfaces, only triangle meshes are supported.
 - For data, only 32-bit single-precision "float" is supported.
+
+## Testing
+
+It is recommended to install [cargo-nextest](https://nexte.st/).
+
+```shell
+cargo nextest run
+```
