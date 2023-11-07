@@ -5,7 +5,6 @@
 [![test](https://github.com/FNNDSC/mni2mz3/actions/workflows/test.yml/badge.svg)](https://github.com/FNNDSC/mni2mz3/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/FNNDSC/mni2mz3/branch/master/graph/badge.svg?token=1YQRZWW95S)](https://codecov.io/gh/FNNDSC/mni2mz3)
 
-
 Converts a file from MNI polygonal surface mesh format (`.obj`\*) or
 vertex-wise data (e.g. curvature, cortical thickness, `*.txt`)
 to [Surf-Ice MZ3 (`.mz3`)](https://github.com/neurolabusc/surf-ice/tree/master/mz3).
@@ -16,7 +15,52 @@ Useful for visualizing surfaces using [Surf-Ice](https://github.com/neurolabusc/
 
 ## Installation
 
-TODO
+There are many ways to install and use `mni2mz3`. Linux, Mac, and Windows are supported.
+
+### Using _ChRIS_
+
+The easiest way to run `mni2mz3` is on [_ChRIS_](https://chrisproject.org), no installation needed.
+Simply upload your data to a feed in https://app.chrisproject.org, then run `pl-mni2common`.
+
+### Using Apptainer
+
+`pl-mni2common` is a _ChRIS_ plugin wrapper for `mni2mz3`, which means you can
+use its container image to run `mni2mz3`.
+
+```shell
+apptainer run docker://ghcr.io/fnndsc/pl-mni2common:latest mni2mz3 input.obj output.mz3
+```
+
+Call the wrapper script `mni2mz3` instead to do bulk processing on an input directory.
+
+```shell
+apptainer run docker://ghcr.io/fnndsc/pl-mni2common:latest mni2mz3 inputdir/ outputdir/
+```
+
+### Using [cargo-binstall](https://github.com/cargo-bins/cargo-binstall)
+
+```shell
+cargo binstall mni2mz3
+```
+
+### Using pip
+
+```shell
+pip install mni2mz3
+```
+
+### Manual Download
+
+Select and download the right binary for your architecture and OS from GitHub Releases:
+https://github.com/FNNDSC/mni2mz3/releases/latest
+
+### Compile From Source
+
+Install [Rust](https://rustup.rs), then run
+
+```shell
+cargo install mni2mz3
+```
 
 ## Usage
 
@@ -27,6 +71,8 @@ mni2mz3 surface_81920.obj surface.mz3
 # convert data
 mni2mz3 thickness.txt thickness.mz3
 ```
+
+To do bulk conversions, use the [_ChRIS_ plugin wrapper](#using-chris).
 
 ## Details
 
