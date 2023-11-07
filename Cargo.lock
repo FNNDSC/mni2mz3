@@ -227,7 +227,7 @@ dependencies = [
 
 [[package]]
 name = "mni2mz3"
-version = "1.0.0-rc.5"
+version = "1.0.0"
 dependencies = [
  "approx",
  "flate2",

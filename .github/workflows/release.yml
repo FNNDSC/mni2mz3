@@ -226,13 +226,9 @@ jobs:
         body: |
           ## Choosing An Installer for Linux
 
-          The bare binary
-          [`${{ steps.create_script.outputs.repo_name }}`](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.create_script.outputs.repo_name }})
-          should work on all Linux distros. Download it, then run `chmod +x ./${{ steps.create_script.outputs.repo_name }}` as usual.
+          The bare binary [`${{ steps.create_script.outputs.repo_name }}`](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.create_script.outputs.repo_name }}) should work on all Linux distros. Download it, then run `chmod +x ./${{ steps.create_script.outputs.repo_name }}` as usual.
 
-          The `unknown-linux-gnu` target is preferable for GNU/Linux with glibc version 2.31 or above.
-          In simpler words: `unknown-linux-gnu` is recommended for Arch Linux, Ubuntu 20.04, Debian 11
-          (Bullseye), CentOS 9, RHEL 9, or newer. Older systems should download the `unknown-linux-musl` variant.
+          The `unknown-linux-gnu` target is preferable for GNU/Linux with glibc version 2.31 or above. In simpler words: `unknown-linux-gnu` is recommended for Arch Linux, Ubuntu 20.04, Debian 11 (Bullseye), CentOS 9, RHEL 9, or newer. Older systems should download the `unknown-linux-musl` variant.
 
           ## Installation Script
 
