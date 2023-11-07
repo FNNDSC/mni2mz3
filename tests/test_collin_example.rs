@@ -4,7 +4,6 @@
 //! However, `.mz3` output is **not** validated.
 
 use rstest::*;
-use assert_cmd::prelude::*;
 use std::path::Path;
 use std::process::Command;
 
@@ -42,7 +41,6 @@ fn test_examples(surface_file_paths: &[&'static Path]) {
     let tmp_dir = tempfile::tempdir().unwrap();
     for input_file in surface_file_paths {
         let output_path = tmp_dir.path().join(input_file.file_name().unwrap());
-        let rc = Command::cargo_bin(env!("CARGO_PKG_NAME")).unwrap().arg(input_file).arg(output_path).status().unwrap();
-        assert!(rc.success())
+        mni2mz3::mni2mz3(input_file, output_path).unwrap();
     }
 }

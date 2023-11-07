@@ -1,5 +1,11 @@
 # mni2mz3
 
+[![MIT License](https://img.shields.io/github/license/fnndsc/mni2mz3)](https://github.com/FNNDSC/mni2mz3/blob/main/LICENSE)
+[![Version](https://img.shields.io/docker/v/fnndsc/mni2mz3?sort=semver)](https://hub.docker.com/r/fnndsc/mni2mz3)
+[![test](https://github.com/FNNDSC/mni2mz3/actions/workflows/test.yml/badge.svg)](https://github.com/FNNDSC/mni2mz3/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/FNNDSC/mni2mz3/branch/master/graph/badge.svg?token=1YQRZWW95S)](https://codecov.io/gh/FNNDSC/mni2mz3)
+
+
 Converts a file from MNI polygonal surface mesh format (`.obj`\*) or
 vertex-wise data (e.g. curvature, cortical thickness, `*.txt`)
 to [Surf-Ice MZ3 (`.mz3`)](https://github.com/neurolabusc/surf-ice/tree/master/mz3).

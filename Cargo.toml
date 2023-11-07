@@ -13,7 +13,6 @@ thiserror = "1.0.50"
 
 [dev-dependencies]
 approx = "0.5.1"
-assert_cmd = { version = "2.0.12", features = ["color"] }
 rstest = "0.18.2"
 tempfile = "3.8.1"
 
