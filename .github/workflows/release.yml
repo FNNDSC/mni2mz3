@@ -224,15 +224,19 @@ jobs:
         files: |
           ./release/*
         body: |
-          ## Choosing An Installer for Linux
+          ## Manual Installation
 
-          The bare binary [`${{ steps.create_script.outputs.repo_name }}`](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.create_script.outputs.repo_name }}) should work on all Linux distros. Download it, then run `chmod +x ./${{ steps.create_script.outputs.repo_name }}` as usual.
+          Here you will find pre-compiled binaries for manual installation of `${{ steps.create_script.outputs.repo_name }}`. Refer to the [README](${{ github.server_url }}/${{ github.repository }}#readme) for the installation instructions using a package manager.
 
-          The `unknown-linux-gnu` target is preferable for GNU/Linux with glibc version 2.31 or above. In simpler words: `unknown-linux-gnu` is recommended for Arch Linux, Ubuntu 20.04, Debian 11 (Bullseye), CentOS 9, RHEL 9, or newer. Older systems should download the `unknown-linux-musl` variant.
+          ### Choosing An Installer for Linux
 
-          ## Installation Script
+          1. If you know what you are doing, do that.
+          2. The bare binary [`${{ steps.create_script.outputs.repo_name }}`](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.create_script.outputs.repo_name }}) should work on all Linux distros. Download it, then run `chmod +x ./${{ steps.create_script.outputs.repo_name }}` as usual.
+          3. The `unknown-linux-gnu` target is preferable for GNU/Linux with glibc version 2.31 or above. In simpler words: `unknown-linux-gnu` is recommended for Arch Linux, Ubuntu 20.04, Debian 11 (Bullseye), CentOS 9, RHEL 9, or newer. Older systems should download the `unknown-linux-musl` variant.
 
-          A script is provided for downloading and installing the binary.
+          ### Installation Script
+
+          A script is provided for detecting your computer architecture and downloading the corresponding package.
 
           Install for all users (requires `sudo`):
 
