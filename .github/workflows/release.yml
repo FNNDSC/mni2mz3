@@ -53,8 +53,8 @@ jobs:
         - { os: ubuntu-latest  , target: powerpc64-unknown-linux-gnu    , use-cross: use-cross }
         - { os: ubuntu-latest  , target: powerpc64le-unknown-linux-gnu  , use-cross: use-cross }
         - { os: ubuntu-latest  , target: riscv64gc-unknown-linux-gnu    , use-cross: use-cross }
-        - { os: ubuntu-latest  , target: x86_64-unknown-linux-gnu       , use-cross: use-cross, deb: deb }
-        - { os: ubuntu-latest  , target: x86_64-unknown-linux-musl      , use-cross: use-cross, convenient: true }
+        - { os: ubuntu-20.04   , target: x86_64-unknown-linux-gnu       , deb: deb }
+        - { os: ubuntu-20.04   , target: x86_64-unknown-linux-musl      , convenient: convenient }
 
         - { os: macos-latest   , target: x86_64-apple-darwin }
         - { os: macos-latest   , target: aarch64-apple-darwin }
@@ -160,6 +160,7 @@ jobs:
         owner_part='${{ github.repository_owner }}/'
         repo_name="${repo:${#owner_part}}"
         bin_env_var_name="${repo_name^^}_BIN"
+        echo "repo_name=$repo_name" >> "$GITHUB_OUTPUT"
         echo "bin_env_var_name=$bin_env_var_name" >> "$GITHUB_OUTPUT"
 
         cat > release/installer.sh << EOF
@@ -195,13 +196,12 @@ jobs:
         tmpdir="\$(mktemp -d)"
         cd "\$tmpdir"
 
-        if which curl > /dev/null 2>&1; then
-          curl -sfLo "\$file" "\$url"
-        elif which wget > /dev/null 2>&1; then
+        if curl -sfLo "\$file" "\$url" 2>&1 | grep -q "command not found"; then
           wget -q -O "\$file" "\$url"
-        else
-          >&2 echo "error: curl nor wget found"
-          exit 1
+        fi
+
+        if ! [ -f "\$file" ]; then
+          >&2 echo "error: failed to download from \$url"
         fi
 
         tar xf "\$file"
@@ -224,7 +224,19 @@ jobs:
         files: |
           ./release/*
         body: |
-          A script is provided for downloading and installing the binary.
+          ## Manual Installation
+
+          Here you will find pre-compiled binaries for manual installation of `${{ steps.create_script.outputs.repo_name }}`. Refer to the [README](${{ github.server_url }}/${{ github.repository }}#readme) for the installation instructions using a package manager.
+
+          ### Choosing An Installer for Linux
+
+          1. If you know what you are doing, do that.
+          2. The bare binary [`${{ steps.create_script.outputs.repo_name }}`](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.create_script.outputs.repo_name }}) should work on all Linux distros. Download it, then run `chmod +x ./${{ steps.create_script.outputs.repo_name }}` as usual.
+          3. The `unknown-linux-gnu` target is preferable for GNU/Linux with glibc version 2.31 or above. In simpler words: `unknown-linux-gnu` is recommended for Arch Linux, Ubuntu 20.04, Debian 11 (Bullseye), CentOS 9, RHEL 9, or newer. Older systems should download the `unknown-linux-musl` variant.
+
+          ### Installation Script
+
+          A script is provided for detecting your computer architecture and downloading the corresponding package.
 
           Install for all users (requires `sudo`):
 
